@@ -11,29 +11,14 @@ class MeshManager {
 
   async build() {
     for (const object in Config.objects) {
-      const mesh = await this.loadMesh(Config.objects[object].objectFile);
+      const mesh = await this.loader.loadAsync(Config.objects[object].objectFile);
+
       if (!mesh) {
         console.log(`Error while loading mesh for ${object}`);
       }
-      this.meshes[`${object}`] = {
-        mesh: mesh
-      };
-    }   
-  }
 
-  loadMesh(path) {
-    return new Promise( (resolve, reject) => {
-      this.loader.load(path, 
-        gltf => {
-          resolve(gltf.scene)
-        },
-        undefined, 
-        error => {
-          console.error(error);
-          reject(null);
-        }
-      )
-    }); 
+      this.meshes[`${object}`] = mesh.scene;
+    }   
   }
 }
 
