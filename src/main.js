@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import MeshManager from './MeshManager'
 import Background from './Background'
+import InputController from './InputController'
 
 import Config from './Config'
 
@@ -8,12 +9,6 @@ class Game {
   constructor() {
     this.playerVelocityX = 0;
     this.playerVelocityY = 0;
-    this.keys = {
-      "up": false,
-      "down": false,
-      "left": false,
-      "right": false
-    }
   }
 
   async init() {
@@ -47,69 +42,31 @@ class Game {
     /* Add light */
     this.addLight();
 
+    /* Setup input controller */
+    this.inputCon = new InputController();
+
+    /* Add to html page */
     document.body.appendChild( this.renderer.domElement );
-    document.addEventListener("keydown", this.keyboardDown.bind(this), false);
-    document.addEventListener("keyup", this.keyboardUp.bind(this), false);
-  }
-
-  keyboardDown(event) {
-    const keyCode = event.which;
-
-    if (keyCode == 72) {
-      this.keys.left = true;
-    }
-
-    if (keyCode == 76) {
-      this.keys.right = true;
-    }
-
-    if (keyCode == 74) {
-      this.keys.down = true;
-    }
-
-    if (keyCode == 75) {
-      this.keys.up = true;
-    }
-  }
-
-  keyboardUp(event) {
-    const keyCode = event.which;
-
-    if (keyCode == 72) {
-      this.keys.left = false;
-    }
-
-    if (keyCode == 76) {
-      this.keys.right = false;
-    }
-
-    if (keyCode == 74) {
-      this.keys.down = false;
-    }
-
-    if (keyCode == 75) {
-      this.keys.up = false;
-    }
   }
 
   processInput() {
     this.playerVelocityX = 0;
     this.playerVelocityY = 0;
 
-    if (this.keys.up) {
+    if (this.inputCon.keys.up) {
       this.playerVelocityY += 0.03;
     }
 
-    if (this.keys.down) {
+    if (this.inputCon.keys.down) {
       this.playerVelocityY -= 0.03;
     }
 
-    if (this.keys.right) {
+    if (this.inputCon.keys.right) {
       this.playerVelocityX += 0.03;
     }
 
-    if (this.keys.left) {
-      this.playerVelocityX -= 0.03;
+    if (this.inputCon.keys.left) {
+      this.playerVelocityX-= 0.03;
     }
   }
 
