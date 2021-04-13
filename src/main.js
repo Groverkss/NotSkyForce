@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import MeshManager from './MeshManager'
 import Background from './Background'
 import InputController from './InputController'
+import Player from './Player'
 
 import Config from './Config'
 
@@ -31,13 +32,10 @@ class Game {
     await this.meshManager.build();
 
     /* Player object */
-    this.scene.add(this.meshManager.meshes.player);
-    const playerMesh = this.meshManager.meshes.player;
-    playerMesh.lookAt(0, 0, -1);
-    playerMesh.scale.x = 0.08;
-    playerMesh.scale.z = 0.08;
-    playerMesh.scale.y = 0.08;
-    playerMesh.position.z = 3;
+    this.player = new Player(
+      this.meshManager.meshes.player,
+      this,
+    );
 
     /* Add light */
     this.addLight();
@@ -47,27 +45,6 @@ class Game {
 
     /* Add to html page */
     document.body.appendChild( this.renderer.domElement );
-  }
-
-  processInput() {
-    this.playerVelocityX = 0;
-    this.playerVelocityY = 0;
-
-    if (this.inputCon.keys.up) {
-      this.playerVelocityY += 0.03;
-    }
-
-    if (this.inputCon.keys.down) {
-      this.playerVelocityY -= 0.03;
-    }
-
-    if (this.inputCon.keys.right) {
-      this.playerVelocityX += 0.03;
-    }
-
-    if (this.inputCon.keys.left) {
-      this.playerVelocityX-= 0.03;
-    }
   }
 
   setRenderer() {
@@ -110,14 +87,16 @@ class Game {
 
   render(time) {
     /* Move stars in background */
-    this.background.update();
-
-    if (this.meshManager && this.meshManager.meshes && this.meshManager.meshes.player) {
-      this.processInput();
-      this.meshManager.meshes.player.position.x += this.playerVelocityX;
-      this.meshManager.meshes.player.position.y += this.playerVelocityY;
+    if (this.background) {
+      this.background.update();
     }
 
+    /* Move player */
+    if (this.player) {
+      this.player.update(time);
+    }
+
+    /* Render objects */
     this.renderer.render( this.scene, this.camera );
     requestAnimationFrame(this.render.bind(game));
   }

@@ -26,6 +26,10 @@ const Config = {
     player: {
       objectFile: "/assets/objects/player.gltf",
     },
+  },
+  player: {
+    velocityX: 0.03,
+    velocityY: 0.03,
   }
 }
 

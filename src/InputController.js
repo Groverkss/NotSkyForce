@@ -4,7 +4,8 @@ class InputController {
       "up": false,
       "down": false,
       "left": false,
-      "right": false
+      "right": false,
+      "space": false,
     }
 
     document.addEventListener("keydown", this.keyboardDown.bind(this), false);
@@ -29,6 +30,10 @@ class InputController {
     if (keyCode == 75) {
       this.keys.up = true;
     }
+
+    if (keyCode == 32) {
+      this.keys.space = true;
+    }
   }
 
   keyboardUp(event) {
@@ -48,6 +53,10 @@ class InputController {
 
     if (keyCode == 75) {
       this.keys.up = false;
+    }
+
+    if (keyCode == 32) {
+      this.keys.space = false;
     }
   }
 }
