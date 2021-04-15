@@ -96,14 +96,19 @@ class Game {
   }
 
   render(time) {
-    /* Move stars in background */
+    /* Update background */
     if (this.background) {
       this.background.update();
     }
 
-    /* Move player */
+    /* Update enemy */
     if (this.player) {
       this.player.update(time);
+    }
+
+    /* Update player */
+    if (this.enemy) {
+      this.enemy.update();
     }
 
     /* Render objects */

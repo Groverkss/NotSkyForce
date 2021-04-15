@@ -1,3 +1,5 @@
+import * as THREE from 'three'
+
 class EnemyManager {
   constructor(enemyMesh, game) {
     this.mesh = enemyMesh; 
@@ -28,6 +30,51 @@ class EnemyManager {
     }
 
     this.game.scene.add(enemy);
+
+    enemy.alive = true;
+    enemy.boundingBox = new THREE.Box3;
+    enemy.boundingBox.setFromObject(enemy);
+
+    this.enemies.push(enemy);
+  }
+
+  update() {
+    if (!this.game.player) {
+      return;
+    }
+
+    for (const enemy of this.enemies) {
+      if (!enemy.alive) {
+        enemy.timer--;
+        if (enemy.timer <= 0) {
+          enemy.alive = true;
+          this.game.scene.add(enemy);
+        } else {
+          continue;
+        }
+      }
+
+      if (this.checkCollision(enemy)) {
+        enemy.alive = false;
+        enemy.timer = 200;
+        this.game.scene.remove(enemy);
+      };
+    }
+  }
+
+  checkCollision(object) {
+    const objectBB = object.boundingBox; 
+    for (let bullet of this.game.player.bulletManager.bullets) {
+
+      const bulletBound = new THREE.Box3;
+      bulletBound.setFromObject(bullet);
+
+      if (objectBB.intersectsBox(bulletBound)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 
