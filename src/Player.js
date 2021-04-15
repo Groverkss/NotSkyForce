@@ -33,6 +33,11 @@ class Player {
     this.move();
     this.bulletManager.moveBullets();
     this.starManager.update();
+    this.updateScore();
+  }
+
+  updateScore() {
+    document.querySelector('#HUD').innerHTML = `Score: ${this.score}`
   }
 
   move() {
