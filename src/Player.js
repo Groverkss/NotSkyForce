@@ -1,11 +1,16 @@
 import Config from './Config'
 import BulletManager from './BulletManager'
+import StarManager from './StarManager'
 
 class Player {
   constructor(playerMesh, game) {
     this.mesh = playerMesh;
     this.game = game;
     this.bulletManager = new BulletManager(this.game);
+    this.starManager = new StarManager(
+      this.game.meshManager.meshes.star,
+      this.game
+    );
 
     this.mesh.lookAt(0, 0, -1);
     this.mesh.scale.x = 0.08;
@@ -23,11 +28,22 @@ class Player {
     this.processInput();
     this.move();
     this.bulletManager.moveBullets();
+    this.starManager.update();
   }
 
   move() {
-    this.mesh.position.x += this.playerVelocityX;
-    this.mesh.position.y += this.playerVelocityY;
+    const posX = this.mesh.position.x + this.playerVelocityX;
+    const posY = this.mesh.position.y + this.playerVelocityY;
+
+    if (posX >= Config.player.boundary.x.left &&
+      posX <= Config.player.boundary.x.right) {
+      this.mesh.position.x = posX;
+    }
+
+    if (posY >= Config.player.boundary.y.down &&
+      posY <= Config.player.boundary.y.up) {
+      this.mesh.position.y = posY;
+    }
   }
 
   processInput() {
