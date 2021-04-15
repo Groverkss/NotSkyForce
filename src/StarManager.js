@@ -42,7 +42,19 @@ class Star {
     this.addStarsIfTime();
     this.stars = this.stars.filter(star => star.alive);
     this.move();
-    this.checkCollision();
+
+    const playerBound = new THREE.Box3;
+    playerBound.setFromObject(this.game.player.mesh);
+    this.game.player.boundingBox = playerBound;
+
+    this.stars.forEach(star => {
+      if (this.checkCollision(star)) {
+        console.log(this.game.player.score);
+        star.alive = false;
+        this.game.scene.remove(star);
+        this.game.player.score += Config.star.score;
+      }
+    });
   }
 
   addStarsIfTime() {
@@ -64,7 +76,7 @@ class Star {
 
   move() {
     this.stars.forEach(star => {
-      if (star.position >= 100) {
+      if (star.position.z >= 10) {
         star.alive = false;
         this.game.scene.remove(star);
         return;
@@ -79,8 +91,13 @@ class Star {
     });
   }
 
-  checkCollision() {
-    return false;
+  checkCollision(star) {
+    const objectBB = this.game.player.boundingBox;
+    const starBound = new THREE.Box3;
+    starBound.setFromObject(star);
+    if (objectBB.intersectsBox(starBound)) {
+      return true;
+    }
   }
 }
 

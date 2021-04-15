@@ -1,3 +1,4 @@
+import * as THREE from 'three'
 import Config from './Config'
 import BulletManager from './BulletManager'
 import StarManager from './StarManager'
@@ -6,6 +7,7 @@ class Player {
   constructor(playerMesh, game) {
     this.mesh = playerMesh;
     this.game = game;
+
     this.bulletManager = new BulletManager(this.game);
     this.starManager = new StarManager(
       this.game.meshManager.meshes.star,
@@ -20,6 +22,8 @@ class Player {
 
     this.playerVelocityX = 0;
     this.playerVelocityY = 0;
+
+    this.score = 0;
 
     game.scene.add(this.mesh);
   }

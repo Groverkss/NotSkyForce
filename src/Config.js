@@ -55,14 +55,15 @@ const Config = {
     frequency: 20,
     boundary: {
       y: {
-        up: 5,
-        down: -3,
+        up: 4,
+        down: -2,
       },
       x: {
-        right: 4,
-        left: -4,
+        right: 3,
+        left: -3,
       },
     },
+    score: 10,
   }
 }
 
