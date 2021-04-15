@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import Config from './Config'
 
 class EnemyManager {
   constructor(enemyMesh, game) {
@@ -57,6 +58,7 @@ class EnemyManager {
       if (this.checkCollision(enemy)) {
         enemy.alive = false;
         enemy.timer = 200;
+        this.game.player.score += Config.enemy.score;
         this.game.scene.remove(enemy);
       };
     }

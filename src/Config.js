@@ -64,6 +64,9 @@ const Config = {
       },
     },
     score: 10,
+  },
+  enemy: {
+    score: 20,
   }
 }
 
