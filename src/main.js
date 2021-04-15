@@ -3,6 +3,7 @@ import MeshManager from './MeshManager'
 import Background from './Background'
 import InputController from './InputController'
 import Player from './Player'
+import EnemyManager from './EnemyManager'
 
 import Config from './Config'
 
@@ -36,6 +37,15 @@ class Game {
       this.meshManager.meshes.player,
       this,
     );
+
+    /* Enemies */
+    this.enemy = new EnemyManager(
+      this.meshManager.meshes.enemy,
+      this,
+    );
+    this.enemy.addEnemy();
+    this.enemy.addEnemy(-1.5, 1.5);
+    this.enemy.addEnemy(1.5, 1.5);
 
     /* Add light */
     this.addLight();

@@ -21,8 +21,8 @@ class BulletManager {
     if (this.canShoot <= 0) {  
       const bullet = this.mesh.clone();
       bullet.position.x = this.game.player.mesh.position.x;
-      bullet.position.y = this.game.player.mesh.position.y;
-      bullet.position.z = this.game.player.mesh.position.z;
+      bullet.position.y = this.game.player.mesh.position.y + 0.05;
+      bullet.position.z = this.game.player.mesh.position.z + 0.01;
 
       this.bullets.push(bullet);
 
@@ -38,6 +38,7 @@ class BulletManager {
   }
 
   moveBullets() {
+    this.bullets = this.bullets.filter( bullet => bullet.alive );
     for (let bullet of this.bullets) {
       bullet.position.z -= 0.1;
     }

@@ -21,7 +21,7 @@ const Config = {
   },
   objects: {
     enemy: {
-      objectFile: "/assets/objects/enemy.glb",
+      objectFile: "/assets/objects/enemy.gltf",
     },
     player: {
       objectFile: "/assets/objects/player.gltf",
